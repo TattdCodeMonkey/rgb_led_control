@@ -1,3 +1,5 @@
+var DB_NAME = 'rgb_led_control';
+
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
@@ -6,9 +8,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 //Datebase
 var mongo = require('mongoskin');
-var db = mongo.db('mongodb://localhost:27017/rgb_led_control',{native_parser:true});
-
-var j5 = require('johnny-five');
+var db = mongo.db('mongodb://localhost:27017/'+DB_NAME,{native_parser:true});
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
