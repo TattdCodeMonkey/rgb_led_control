@@ -2,7 +2,7 @@ var selectedColor = '#00FF00';
 
 // DOM Ready =============================================================
 $(document).ready(function() {
-    
+
     // Populate the user table on initial page load
     populateTable();
 
@@ -26,7 +26,7 @@ function populateTable() {
 
         // For each item in our JSON, add a table row and cells to the content string
         tableContent += '<tr>';
-        tableContent += '<td bgcolor="' + data.color+ '">' + data.color + '</td>';
+        tableContent += '<td>' + data.color + '</td>';
         tableContent += '</tr>';
 
         selectedColor = data.color;
@@ -36,7 +36,7 @@ function populateTable() {
 
         $("#clr_whl").spectrum({
           color: selectedColor,
-          flat: true,
+          //flat: true,
           showInput: true,
           change: function(color){
               setColor(color);
