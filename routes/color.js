@@ -2,6 +2,7 @@
 var express = require('express');
 var router = express.Router();
 var j5 = require('johnny-five');
+var selectedColor = { color : '#00ff00' };
 
 //constants
 var DB_NAME = 'rgb_led_control';
@@ -25,48 +26,24 @@ board.on("ready", function(){
    new j5.Led(BLUE_PIN)
   ];
 
-  //put all leds in the off state
-  led[RED].off();
-  led[GREEN].off();
-  led[BLUE].off();
-
   //Set board as ready
   bBoardReady = true;
+
+  //load currently selected color to led
+  setLedColor(selectedColor.color);
 });
 
 /* GET users listing. */
 router.get('/selected_color', function(req, res) {
-  var db = req.db;
-  db.collection(DB_NAME).find({id:1}).toArray(function (err, items) {
-        if(err){
-            res.json({id:0, color: '#000000'});
-        }
-        else{
-            res.json(items);
-        }
-    });
+  res.json(selectedColor);
 });
 
 router.post('/select_color',function(req,res){
-  console.log('select color called');
-  var db = req.db;
-  db.collection(DB_NAME).update(
-    {id:1},
-    {$set: {color: req.body.newColor}},
-    function(err, result) {
-    if (err){
-      res.json({ color: req.body.currentColor });
-    }
-    else{
-      res.json({ color: req.body.newColor });
-      if(bBoardReady){
-        var rgbVal = hexToRgb(req.body.newColor);
-        led[RED].brightness(rgbVal.r);
-        led[GREEN].brightness(rgbVal.g);
-        led[BLUE].brightness(rgbVal.b);
-      }
-    }
-    });
+  selectedColor.color = req.body.newColor;
+
+  setLedColor(selectedColor.color);
+
+  res.json(selectedColor);
 });
 
 function hexToRgb(hex) {
@@ -76,6 +53,15 @@ function hexToRgb(hex) {
         g: parseInt(result[2], 16),
         b: parseInt(result[3], 16)
     } : null;
+}
+
+function setLedColor(color){
+  if(bBoardReady){
+    var rgbVal = hexToRgb(color);
+    led[RED].brightness(rgbVal.r);
+    led[GREEN].brightness(rgbVal.g);
+    led[BLUE].brightness(rgbVal.b);
+  }
 }
 
 module.exports = router;

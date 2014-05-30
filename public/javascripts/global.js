@@ -2,7 +2,7 @@ var selectedColor = '#00FF00';
 
 // DOM Ready =============================================================
 $(document).ready(function() {
-    console.log('doc ready');
+    
     // Populate the user table on initial page load
     populateTable();
 
@@ -20,18 +20,16 @@ function setColorInTable(data){
 function populateTable() {
     // Empty content string
     var tableContent = '';
-    console.log('populate table called');
+
     // jQuery AJAX call for JSON
     $.getJSON( '/color/selected_color', function( data ) {
-        console.log(data);
-        // For each item in our JSON, add a table row and cells to the content string
-        $.each(data, function(){
-            tableContent += '<tr>';
-            tableContent += '<td bgcolor="' + this.color+ '">' + this.color + '</td>';
-            tableContent += '</tr>';
 
-            selectedColor = this.color;
-        });
+        // For each item in our JSON, add a table row and cells to the content string
+        tableContent += '<tr>';
+        tableContent += '<td bgcolor="' + data.color+ '">' + data.color + '</td>';
+        tableContent += '</tr>';
+
+        selectedColor = data.color;
 
         // Inject the whole content string into our existing HTML table
         $('#selected_color table tbody').html(tableContent);
