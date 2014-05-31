@@ -7,4 +7,4 @@ Express &amp; Jade used for web app.
 
 Arduino UNO with rgb led at pins 9, 10 &amp; 11
 
-Nothing too special, just an excuse to lear some node and play with my arduino.
+Nothing too special, just an excuse to learn some node and play with my arduino.
